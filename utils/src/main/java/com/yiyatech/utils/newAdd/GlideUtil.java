@@ -28,7 +28,7 @@ public class GlideUtil {
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .dontAnimate();
-        Glide.with(UtilsApplication.getUtilsApplicaitonContext())
+        Glide.with(UtilsApplication.getUtilsApplicationContext())
                 .load(filePath)
                 .apply(options)
                 .into(imageView);
@@ -43,13 +43,13 @@ public class GlideUtil {
     }
 
     public static void loadCornerImage(ImageView imageView, String filePath, RequestListener listener, float radius) {
-        CornerTransform transform = new CornerTransform(UtilsApplication.getUtilsApplicaitonContext(), radius);
+        CornerTransform transform = new CornerTransform(UtilsApplication.getUtilsApplicationContext(), radius);
         ColorDrawable drawable = new ColorDrawable(Color.GRAY);
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .placeholder(drawable)
                 .transform(transform);
-        Glide.with(UtilsApplication.getUtilsApplicaitonContext())
+        Glide.with(UtilsApplication.getUtilsApplicationContext())
                 .load(filePath)
                 .apply(options)
                 .listener(listener)
@@ -57,7 +57,7 @@ public class GlideUtil {
     }
 
     public static void loadRoundImage(ImageView pImageView, String filePath) {
-        Glide.with(UtilsApplication.getUtilsApplicaitonContext()).load(filePath)
+        Glide.with(UtilsApplication.getUtilsApplicationContext()).load(filePath)
                 .apply(RequestOptions.bitmapTransform(new CircleCrop()))
                 .into(pImageView);
     }
@@ -66,7 +66,7 @@ public class GlideUtil {
      * 设置背景模糊，失败时使用默认图片
      */
     public static void loadBlurredBackground(String imagePath, final ImageView imageView) {
-        Glide.with(UtilsApplication.getUtilsApplicaitonContext()).load(imagePath)
+        Glide.with(UtilsApplication.getUtilsApplicationContext()).load(imagePath)
                 .apply(RequestOptions.bitmapTransform(new BlurTransformation(20, 3)))
                 .listener(new RequestListener<Drawable>() {
                     @Override
@@ -74,7 +74,7 @@ public class GlideUtil {
                         imageView.post(new Runnable() {
                             @Override
                             public void run() {
-                                Glide.with(UtilsApplication.getUtilsApplicaitonContext()).load(R.drawable.ic_pic_load)
+                                Glide.with(UtilsApplication.getUtilsApplicationContext()).load(R.drawable.ic_pic_load)
                                         .apply(RequestOptions.bitmapTransform(new BlurTransformation(20, 3)))
                                         .into(imageView);
                             }

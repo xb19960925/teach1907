@@ -237,5 +237,13 @@
         <attr format="float" name="default_scale"/>
         <attr format="integer" name="zoom_duration"/>
     </declare-styleable>
-
+<declare-styleable name="LoginView">
+    <attr format="boolean" name="isMoreType"/>
+</declare-styleable>
+    <declare-styleable name="BottomTabView">
+        <attr format="integer" name="tabNum"/>
+        <attr name="defaultSelect" format="integer"/>
+        <attr format="color" name="selectedColor"/>
+        <attr  format="color" name="unselectedColor"/>
+    </declare-styleable>
 </resources>

@@ -76,7 +76,7 @@ public class NetManger {
 
                     @Override
                     public void onSuccess(Object value) {
-                        pPresenter.onSuccess(whichApi, value, o);
+                        pPresenter.onSuccess(whichApi, value,o);
                     }
 
                     @Override

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.HomeFragment">
+
+    <LinearLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_46"
+        android:background="@color/app_theme"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/dp_3"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_3"
+        android:paddingBottom="@dimen/dp_10"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/select_subject"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/dp_8"
+            android:layout_weight="8"
+            android:background="@drawable/dark_gray_shape"
+            android:drawableLeft="@drawable/four_corner_white_icon"
+            android:drawableRight="@drawable/ic_arrow_down"
+            android:gravity="center"
+            android:paddingLeft="@dimen/dp_3"
+            android:paddingRight="@dimen/dp_3"
+            android:text="室内设计"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_15" />
+
+        <TextView
+            android:id="@+id/search"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/dp_8"
+            android:layout_weight="13"
+            android:background="@drawable/dark_gray_shape"
+            android:drawableLeft="@drawable/fangdajing"
+            android:drawablePadding="@dimen/dp_3"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dp_66"
+            android:text="搜索"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_15" />
+
+        <ImageView
+            android:id="@+id/message"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/dp_8"
+            android:layout_weight="1.5"
+            android:src="@drawable/ic_home_msg" />
+
+        <ImageView
+            android:id="@+id/scan"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:src="@drawable/ic_qrcode_scan" />
+    </LinearLayout>
+
+    <com.teach.teach1907.view.BottomTabView
+        android:id="@+id/bottom_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:selectedColor="@color/red2e"
+        app:tabNum="5"
+        app:unselectedColor="@color/black" />
+
+    <fragment
+        android:id="@+id/home_fragment_container"
+        android:name="com.teach.teach1907.base.BaseNavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:defaultNavHost="false"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_tab"
+        app:layout_constraintTop_toBottomOf="@+id/top"
+        app:navGraph="@navigation/navigation_fragment" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

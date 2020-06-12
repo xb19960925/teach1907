@@ -1,3 +1,4 @@
+include ':basepop'
 rootProject.name='teach1907'
 include ':app', ':utils'
 include ':frame'

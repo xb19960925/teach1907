@@ -49,7 +49,6 @@ public class SubjectChildAdapter extends RecyclerView.Adapter<SubjectChildAdapte
         }
         holder.label.setOnClickListener(v -> {
             FrameApplication.getFrameApplication().setSelectedInfo(data.get(position));
-            SharedPrefrenceUtils.putObject(mContext, ConstantKey.SUBJECT_SELECT,  data.get(position));
             fatherAdapter.notifyDataSetChanged();
         });
     }

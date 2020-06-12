@@ -13,7 +13,7 @@ public class UtilsApplication extends Application {
         mApplication = this;
     }
 
-    public static Context getUtilsApplicaitonContext(){
+    public static Context getUtilsApplicationContext(){
         return mApplication.getApplicationContext();
     }
 }

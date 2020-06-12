@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/dp_8"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<ImageView
+    android:id="@+id/course_thumb"
+    android:layout_width="@dimen/dp_120"
+    android:scaleType="fitXY"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    android:layout_height="@dimen/dp_80"/>
+    <TextView
+        android:id="@+id/course_name"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:textSize="@dimen/dp_16"
+        android:maxLines="2"
+        android:ellipsize="end"
+        app:layout_constraintTop_toTopOf="@+id/course_thumb"
+        app:layout_constraintLeft_toRightOf="@+id/course_thumb"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textColor="@color/color_black"
+        android:layout_width="@dimen/dp_200"
+        android:layout_height="wrap_content"/>
+    <ImageView
+        android:id="@+id/num"
+        android:layout_width="@dimen/dp_10"
+        android:src="@mipmap/ic_people"
+        android:layout_height="@dimen/dp_10"
+        app:layout_constraintTop_toBottomOf="@+id/course_name"
+        app:layout_constraintLeft_toLeftOf="@+id/course_name"
+        app:layout_constraintLeft_toRightOf="@+id/course_thumb"
+       />
+
+    <TextView
+        android:id="@+id/course_num"
+        android:layout_width="0dp"
+        android:layout_marginLeft="5dp"
+        android:textSize="@dimen/dp_14"
+        android:textColor="@color/gray"
+        android:layout_height="@dimen/dp_20"
+        app:layout_constraintBottom_toBottomOf="@+id/num"
+        app:layout_constraintLeft_toRightOf="@+id/num"
+        app:layout_constraintTop_toTopOf="@+id/num"
+   />
+
+    <ImageView
+        android:id="@+id/rate"
+        android:layout_marginLeft="5dp"
+        android:layout_width="@dimen/dp_10"
+        app:layout_goneMarginLeft="5dp"
+        android:src="@mipmap/ic_like"
+        android:layout_height="@dimen/dp_10"
+        app:layout_constraintLeft_toRightOf="@+id/course_num"
+        app:layout_constraintTop_toTopOf="@+id/course_num"
+        app:layout_constraintBottom_toBottomOf="@+id/course_num"/>
+
+    <TextView
+        android:id="@+id/course_rate"
+        android:layout_width="0dp"
+        android:layout_marginLeft="@dimen/dp_3"
+        android:layout_height="@dimen/dp_20"
+        android:textSize="@dimen/dp_14"
+        android:textColor="@color/gray"
+        app:layout_constraintBottom_toBottomOf="@+id/rate"
+        app:layout_constraintLeft_toRightOf="@+id/rate"
+        app:layout_constraintTop_toTopOf="@+id/rate" />
+    <TextView
+        android:id="@+id/price"
+        android:textColor="@color/color_red"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/dp_16"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/num"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
-package com.teach.teach1907.view.activity;
+package com.teach.teach1907.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ import com.teach.frame.constants.ConstantKey;
 import com.teach.teach1907.R;
 import com.teach.teach1907.adapter.SubjectAdapter;
 import com.teach.teach1907.base.BaseMvpActivity;
+import com.teach.teach1907.fragment.HomeFragment;
 import com.teach.teach1907.model.LauchModel;
 import com.yiyatech.utils.newAdd.SharedPrefrenceUtils;
 
@@ -24,6 +26,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.teach.teach1907.design.JumpConstant.JUMP_KEY;
+import static com.teach.teach1907.design.JumpConstant.SPLASH_TO_SUB;
+import static com.teach.teach1907.design.JumpConstant.SUB_TO_LOGIN;
+
 public class SubjectActivity extends BaseMvpActivity<LauchModel> {
 
     @BindView(R.id.recyclerView)
@@ -32,7 +38,9 @@ public class SubjectActivity extends BaseMvpActivity<LauchModel> {
     TextView commonTitle;
     private List<SpecialtyChooseEntity> mListData = new ArrayList<>();
     private SubjectAdapter adapter;
-
+    @BindView(R.id.more_content)
+    TextView moreContent;
+    private String mFrom;
     @Override
     public LauchModel setModel() {
         return new LauchModel();
@@ -45,17 +53,34 @@ public class SubjectActivity extends BaseMvpActivity<LauchModel> {
 
     @Override
     public void setUpView() {
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        mFrom = getIntent().getStringExtra(JUMP_KEY);
+
         commonTitle.setText(getString(R.string.select_subject));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new SubjectAdapter(this, mListData);
         recyclerView.setAdapter(adapter);
+        moreContent.setText("完成");
+        moreContent.setOnClickListener(v->{
+            if (mApplication.getSelectedInfo() == null){
+                showToast("请选择专业");
+                return;
+            }
+            if (mFrom.equals(SPLASH_TO_SUB)){
+                if (mApplication.isLogin()){
+                    startActivity(new Intent(SubjectActivity.this,HomeActivity.class));
+                } else {
+                    startActivity(new Intent(SubjectActivity.this,LoginActivity.class).putExtra(JUMP_KEY,SUB_TO_LOGIN));
+                }
+            }
+            finish();
+        });
     }
 
     @Override
     public void setUpData() {
-        if (SharedPrefrenceUtils.getSerializableList(this, ConstantKey.SUBJECT_LIST) != null) {
-            mListData.addAll(SharedPrefrenceUtils.getSerializableList(this, ConstantKey.SUBJECT_LIST));
+        List<SpecialtyChooseEntity>info=SharedPrefrenceUtils.getSerializableList(this, ConstantKey.SUBJECT_LIST);
+        if (info!= null) {
+            mListData.addAll(info);
             adapter.notifyDataSetChanged();
         } else
             mPresenter.getData(ApiConfig.SUBJECT);
@@ -76,6 +101,8 @@ public class SubjectActivity extends BaseMvpActivity<LauchModel> {
     protected void onStop() {
         super.onStop();
         SharedPrefrenceUtils.putObject(this,ConstantKey.SUBJECT_SELECT,mApplication.getSelectedInfo());
+
+
     }
     @OnClick(R.id.common_img)
     public void onViewClicked() {

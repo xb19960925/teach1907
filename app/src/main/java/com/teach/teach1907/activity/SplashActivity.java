@@ -1,13 +1,14 @@
-package com.teach.teach1907.view.activity;
+package com.teach.teach1907.activity;
 
 import android.content.Intent;
 import android.graphics.Point;
-import android.os.Build;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 
 import com.teach.data.BaseInfo;
+import com.teach.data.LoginInfo;
 import com.teach.data.MainAdEntity;
 import com.teach.data.SpecialtyChooseEntity;
 import com.teach.frame.ApiConfig;
@@ -27,6 +28,10 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+
+import static com.teach.teach1907.design.JumpConstant.JUMP_KEY;
+import static com.teach.teach1907.design.JumpConstant.SPLASH_TO_LOGIN;
+import static com.teach.teach1907.design.JumpConstant.SPLASH_TO_SUB;
 
 public class SplashActivity extends BaseSplashActivity {
 
@@ -59,6 +64,9 @@ public class SplashActivity extends BaseSplashActivity {
         }
         Point realSize = SystemUtils.getRealSize(this);
         mPresenter.getData(ApiConfig.ADVERT, specialtyId, realSize.x, realSize.y);
+        new Handler().postDelayed(()->{if(mInfo==null)jump();},3000);
+        LoginInfo loginInfo=SharedPrefrenceUtils.getObject(this,ConstantKey.LOGIN_INFO);
+        if(loginInfo!=null&& !TextUtils.isEmpty(loginInfo.getUid()))mApplication.setLoginInfo(loginInfo);
     }
 
     @Override
@@ -75,18 +83,24 @@ public class SplashActivity extends BaseSplashActivity {
         mSubscribe = Observable.interval(1, TimeUnit.SECONDS).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(pLong -> {
                     if (preTime - pLong > -1) timeView.setText(preTime - pLong + "s");
-                    else {
-                        jump();
-
-                    }
+                    else jump();
                 });
     }
 
     private void jump() {
-        startActivity(new Intent(this,mSelectedInfo != null && !TextUtils.isEmpty(mSelectedInfo.getSpecialty_id()) ?
-                mApplication.isLogin() ? HomeActivity.class : LoginActivity.class : SubjectActivity.class ));
-        finish();
-        mSubscribe.dispose();
+        if (mSubscribe != null)mSubscribe.dispose();
+        Observable.just("我是防抖动").debounce(20, TimeUnit.MILLISECONDS).subscribe(p->{
+            if (mSelectedInfo != null && !TextUtils.isEmpty(mSelectedInfo.getSpecialty_id())) {
+                if (mApplication.isLogin()) {
+                    startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                } else {
+                    startActivity(new Intent(SplashActivity.this, LoginActivity.class).putExtra(JUMP_KEY, SPLASH_TO_LOGIN));
+                }
+            } else {
+                startActivity(new Intent(SplashActivity.this, SubjectActivity.class).putExtra(JUMP_KEY, SPLASH_TO_SUB));
+            }
+            finish();
+        });
     }
 
     @Override

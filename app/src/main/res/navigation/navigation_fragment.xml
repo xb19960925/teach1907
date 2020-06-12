@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/mainFragment">
+
+    <tab_fragment
+        android:id="@+id/mainFragment"
+        android:name="com.teach.teach1907.fragment.MainFragment"
+        android:label="MainFragment">
+    </tab_fragment>
+    <tab_fragment
+        android:id="@+id/courseFragment"
+        android:name="com.teach.teach1907.fragment.CourseFragment"
+        android:label="CourseFragment"/>
+    <tab_fragment
+        android:id="@+id/vipFragment"
+        android:name="com.teach.teach1907.fragment.VIPFragment"
+        android:label="VIPFragment"/>
+    <tab_fragment
+        android:id="@+id/dataFragment"
+        android:name="com.teach.teach1907.fragment.DataFragment"
+        android:label="DataFragment"/>
+    <tab_fragment
+        android:id="@+id/myFragment"
+        android:name="com.teach.teach1907.fragment.MyFragment"
+        android:label="MyFragment"/>
+
+</navigation>
