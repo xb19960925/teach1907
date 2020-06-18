@@ -14,7 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.teach.data.InformationBean;
 import com.teach.teach1907.R;
+import com.teach.teach1907.design.RoundImage;
+import com.teach.teach1907.design.RoundOrCircleImage;
 import com.teach.teach1907.interfaces.OnRecyclerItemClick;
+import com.yiyatech.utils.newAdd.GlideUtil;
 
 import java.util.List;
 
@@ -43,7 +46,11 @@ public class DatumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         InformationBean.ResultBean bean = list.get(position);
         ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.title.setText(bean.getGroup_name());
-        Glide.with(mContext).load(bean.getAvatar()).into(viewHolder.img);
+        //Glide.with(mContext).load(bean.getAvatar()).into(viewHolder.img);
+        //GlideUtil.loadCornerImage(holder.ivThumb,entity.getAvatar(),null,6f);
+        viewHolder.img.setType(1);
+        ((ViewHolder) holder).img.setBorderRadius(10);
+        GlideUtil.loadImage(viewHolder.img,bean.getAvatar());
         viewHolder.duce.setText(bean.getIntroduce());
         viewHolder.infoGz.setText(bean.getMember_num() + "关注");
         viewHolder.tvFocus.setText(bean.isFocus() ? "已关注" : "+关注");
@@ -69,7 +76,7 @@ public class DatumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     static
     class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.infor_image)
-        ImageView img;
+        RoundOrCircleImage img;
         @BindView(R.id.infor_title)
         TextView title;
         @BindView(R.id.inf0_imag_tb)

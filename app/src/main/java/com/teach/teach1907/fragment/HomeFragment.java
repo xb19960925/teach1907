@@ -2,6 +2,7 @@ package com.teach.teach1907.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
 
@@ -10,17 +11,15 @@ import androidx.annotation.Nullable;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.teach.data.SpecialtyChooseEntity;
 import com.teach.frame.FrameApplication;
-import com.teach.frame.constants.ConstantKey;
 import com.teach.teach1907.R;
 import com.teach.teach1907.activity.SubjectActivity;
-import com.teach.teach1907.base.Application1907;
 import com.teach.teach1907.base.BaseMvpFragment;
 import com.teach.teach1907.model.FragmentModel;
 import com.teach.teach1907.view.BottomTabView;
-import com.yiyatech.utils.newAdd.SharedPrefrenceUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,31 +40,45 @@ public class HomeFragment extends BaseMvpFragment<FragmentModel> implements Bott
     protected NavController mHomeController;
     private final int MAIN_PAGE = 1, COURSE = 2, VIP = 3, DATA = 4, MINE = 5;
     private SpecialtyChooseEntity.DataBean mSelectedInfo;
+    private BottomTabView mTabView;
+
     @Override
     public FragmentModel setModel() {
         return null;
     }
-
+    private String preFragment = "";
+    private String mCurrentFragment = "";
     @Override
     public int setLayout() {
         return R.layout.fragment_home;
     }
-
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        NavHostFragment.findNavController(this).addOnDestinationChangedListener((controller, destination, arguments) -> {
+            mCurrentFragment = destination.getLabel().toString();
+            new Handler().postDelayed(() -> {
+                if (preFragment.equals("DataGroupDetailFragment") && mCurrentFragment.equals("HomeFragment"))
+                    mTabView.changeSelected(DATA);
+                preFragment = mCurrentFragment;
+            },50);
+        });
+    }
     @Override
     public void initView() {
-
-        BottomTabView tabView = getView().findViewById(R.id.bottom_tab);
+        mTabView = getView().findViewById(R.id.bottom_tab);
         Collections.addAll(normalIcon, R.drawable.main_page_view, R.drawable.course_view, R.drawable.vip_view, R.drawable.data_view, R.drawable.mine_view);
         Collections.addAll(selectedIcon, R.drawable.main_selected, R.drawable.course_selected, R.drawable.vip_selected, R.drawable.data_selected, R.drawable.mine_selected);
         Collections.addAll(tabContent, "主页", "课程", "VIP", "资料", "我的");
-        tabView.setResource(normalIcon, selectedIcon, tabContent);
-        tabView.setOnBottomTabClickCallBack(this);
+        mTabView.setResource(normalIcon, selectedIcon, tabContent);
+        mTabView.setOnBottomTabClickCallBack(this);
+        mHomeController = Navigation.findNavController(getView().findViewById(R.id.home_fragment_container));
+        mHomeController.addOnDestinationChangedListener(this);
     }
 
     @Override
     public void initData() {
-        mHomeController = Navigation.findNavController(getView().findViewById(R.id.home_fragment_container));
-        mHomeController.addOnDestinationChangedListener(this);
+
     }
     @Override
     public void onResume() {

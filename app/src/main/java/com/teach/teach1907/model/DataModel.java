@@ -33,6 +33,13 @@ public class DataModel implements ICommonModel {
                 ParamHashMap add2 = new ParamHashMap().add("gid", params[0]).add("group_name", params[1]).add("screctKey", FrameApplication.getFrameApplicationContext().getString(R.string.secrectKey_posting));
                 netManger.netWork(netManger.getService(Application1907.get07ApplicationContext().getString(R.string.bbs_api)).focus(add2),pPresenter,whichApi,(int)params[2]);
                 break;
+            //  详情
+            case ApiConfig.GROUP_DETAIL:
+                NetManger.getInstance().netWork(netManger.getService(Application1907.get07ApplicationContext().getString(R.string.bbs_openapi)).getGroupDetail(params[0]),pPresenter,whichApi);
+                break;
+            case ApiConfig.GROUP_DETAIL_FOOTER_DATA:
+                NetManger.getInstance().netWork(netManger.getService(Application1907.get07ApplicationContext().getString(R.string.bbs_openapi)).getGroupDetailFooterData((Map<String, Object>) params[1]),pPresenter,whichApi,params[0]);
+                break;
         }
     }
 }

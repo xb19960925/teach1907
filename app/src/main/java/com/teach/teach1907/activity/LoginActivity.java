@@ -8,6 +8,7 @@ import android.view.View;
 import com.teach.data.BaseInfo;
 import com.teach.data.LoginInfo;
 import com.teach.data.PersonHeader;
+import com.teach.data.ThirdLoginData;
 import com.teach.frame.ApiConfig;
 import com.teach.frame.ICommonModel;
 import com.teach.frame.constants.ConstantKey;
@@ -15,7 +16,14 @@ import com.teach.teach1907.R;
 import com.teach.teach1907.base.BaseMvpActivity;
 import com.teach.teach1907.model.AccountModel;
 import com.teach.teach1907.view.LoginView;
+import com.tencent.mm.sdk.modelmsg.SendAuth;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.yiyatech.utils.newAdd.SharedPrefrenceUtils;
+import com.zhulong.eduvideo.wxapi.WXEntryActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.concurrent.TimeUnit;
 
@@ -38,6 +46,8 @@ public class LoginActivity extends BaseMvpActivity implements LoginView.LoginVie
     private Disposable mSubscribe;
     private String phoneNum;
     private String mFromType;
+    private ThirdLoginData mThirdData;
+
     @Override
     public ICommonModel setModel() {
         return new AccountModel();
@@ -71,12 +81,16 @@ public class LoginActivity extends BaseMvpActivity implements LoginView.LoginVie
                 break;
             case ApiConfig.VERIFY_LOGIN:
             case ApiConfig.ACCOUNT_LOGIN:
+            case ApiConfig.POST_WE_CHAT_LOGIN_INFO:
                 BaseInfo<LoginInfo> baseInfo = (BaseInfo<LoginInfo>) pD[0];
                 if(baseInfo.isSuccess()) {
                     LoginInfo loginInfo = baseInfo.result;
                     if (!TextUtils.isEmpty(phoneNum)) loginInfo.login_name = phoneNum;
                     mApplication.setLoginInfo(loginInfo);
                     mPresenter.getData(ApiConfig.GET_HEADER_INFO);
+                }else if(baseInfo.errNo==1300){
+                    Intent intent = new Intent(this, ThirdAccountBindActivity.class);
+                    startActivityForResult(intent.putExtra("thirdData",mThirdData),ConstantKey.LOGIN_TO_BIND);
                 }else {
                     showToast("账号密码错误");
                 }
@@ -86,6 +100,21 @@ public class LoginActivity extends BaseMvpActivity implements LoginView.LoginVie
                 mApplication.getLoginInfo().personHeader = personHeader;
                 SharedPrefrenceUtils.putObject(this, ConstantKey.LOGIN_INFO, mApplication.getLoginInfo());
                 jump();
+                break;
+            case ApiConfig.GET_WE_CHAT_TOKEN:
+                JSONObject allJson = null;
+                try {
+                    allJson = new JSONObject(pD[0].toString());
+                } catch (JSONException pE) {
+                    pE.printStackTrace();
+                }
+                mThirdData = new ThirdLoginData(3);
+                mThirdData.setOpenid(allJson.optString("openid"));
+                mThirdData.token = allJson.optString("access_token");
+                mThirdData.refreshToken = allJson.optString("refresh_token");
+                mThirdData.utime = allJson.optLong("expires_in") * 1000;
+                mThirdData.unionid = allJson.optString("unionid");
+                mPresenter.getData(ApiConfig.POST_WE_CHAT_LOGIN_INFO, mThirdData);
                 break;
         }
     }
@@ -146,11 +175,42 @@ public class LoginActivity extends BaseMvpActivity implements LoginView.LoginVie
             case R.id.login_by_qq:
                 break;
             case R.id.login_by_wx:
+                doWechatLogin();
                 break;
         }
     }
+    private void doWechatLogin() {
+        WXEntryActivity.setOnWeChatLoginResultListener(it -> {
+            int errorCode = it.getIntExtra("errorCode", 0);
+            String normalCode = it.getStringExtra("normalCode");
+            switch (errorCode) {
+                case 0:
+                    showLog("用户已同意微信登录");
+                    mPresenter.getData(ApiConfig.GET_WE_CHAT_TOKEN, normalCode);
+                    break;
+                case -4:
+                    showToast("用户拒绝授权");
+                    break;
+                case -2:
+                    showToast("用户取消");
+                    break;
 
-
+            }
+        });
+        IWXAPI weChatApi = WXAPIFactory.createWXAPI(this, null);
+        weChatApi.registerApp(ConstantKey.WX_APP_ID);
+        if (weChatApi.isWXAppInstalled()) {
+            doWeChatLogin();
+        } else showToast("请先安装微信");
+    }
+    private void doWeChatLogin() {
+        SendAuth.Req request = new SendAuth.Req();
+//        snsapi_base 和snsapi_userinfo  静态获取和同意后获取
+        request.scope = "snsapi_userinfo";
+        request.state = "com.zhulong.eduvideo";
+        IWXAPI weChatApi = WXAPIFactory.createWXAPI(this, ConstantKey.WX_APP_ID);
+        weChatApi.sendReq(request);
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();

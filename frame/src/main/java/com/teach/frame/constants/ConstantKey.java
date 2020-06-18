@@ -1,10 +1,13 @@
 package com.teach.frame.constants;
 
 public class ConstantKey {
+
     public static final String WX_APP_ID = "wx4b6c402fee6860c8";
     public static final String WX_APP_SECRET = "1278977f2848ee16708c656f66abf35a";
     public static final String QQ_APP_ID = "1105712307";
 
+
+    public static final String DATUM_TO_DETAIL_GID = "datum_to_detail_gid";
     public static final String LOGIN_INFO = "login_info";
     public static final String DEVICE_INFO = "device_info";
     public static final String SUBJECT_LIST = "subject_info";

@@ -3,6 +3,7 @@ package com.teach.frame;
 import com.google.gson.JsonObject;
 import com.teach.data.BaseInfo;
 import com.teach.data.CourseBean;
+import com.teach.data.GroupDetailEntity;
 import com.teach.data.IndexCommondEntity;
 import com.teach.data.InformationBean;
 import com.teach.data.LoginInfo;
@@ -14,12 +15,10 @@ import com.teach.data.TestInfo;
 import com.teach.data.VipBean;
 import com.teach.data.VipListBean;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
-import io.reactivex.internal.functions.ObjectHelper;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -27,7 +26,6 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
-import retrofit2.http.Url;
 
 
 public interface IService {
@@ -54,7 +52,17 @@ public interface IService {
     @POST("getUserHeaderForMobile")
     @FormUrlEncoded
     Observable<BaseInfo<PersonHeader>> getHeaderInfo(@FieldMap Map<String,Object> params);
+//微信登录
+    @GET("access_token")
+    Observable<JsonObject> getWechatToken(@QueryMap Map<String,Object> parmas);
 
+    @POST("thirdlogin")
+    @FormUrlEncoded
+    Observable<BaseInfo<LoginInfo>> loginByWechat(@FieldMap Map<String,Object> params);
+
+    @POST("newThirdbind")
+    @FormUrlEncoded
+    Observable<BaseInfo> bindThirdAccount(@FieldMap Map<String,Object> params);
     //课程
     @POST("lesson/getLessonListForApi/")
     @FormUrlEncoded
@@ -106,4 +114,13 @@ public interface IService {
     @POST("userRegForSimple")
     @FormUrlEncoded
     Observable<BaseInfo> registerCompleteWithSubject(@FieldMap Map<String,Object> params);
-        }
+    // 详情
+    @GET("group/getGroupThreadList")
+    Observable<BaseInfo<GroupDetailEntity>> getGroupDetail(@Query("gid") Object object);
+
+    @GET("group/getGroupThreadList")
+    Observable<JsonObject> getGroupDetailFooterData( @QueryMap Map<String,Object> params);
+
+
+}
+

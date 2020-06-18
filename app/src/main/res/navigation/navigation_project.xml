@@ -8,6 +8,9 @@
         android:id="@+id/homeFragment"
         android:name="com.teach.teach1907.fragment.HomeFragment"
         android:label="HomeFragment">
-
     </fragment>
+    <fragment
+        android:id="@+id/dataGroupDetailFragment"
+        android:name="com.teach.teach1907.fragment.info.DataGroupDetailFragment"
+        android:label="DataGroupDetailFragment" />
 </navigation>

@@ -24,6 +24,13 @@ public class ApiConfig {
     public static final int SEND_REGISTER_VERIFY = 18;
     public static final int NET_CHECK_USERNAME = 19;
     public static final int COMPLETE_REGISTER_WITH_SUBJECT = 20;
+//微信登录
+    public static final int GET_WE_CHAT_TOKEN = 22;
+    public static final int POST_WE_CHAT_LOGIN_INFO = 23;
+    public static final int BIND_ACCOUNT = 24;
+//详情
+    public static final int GROUP_DETAIL = 25;
+    public static final int GROUP_DETAIL_FOOTER_DATA = 26;
 
 
 }

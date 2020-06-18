@@ -77,6 +77,7 @@ public class MainFragment extends BaseMvpFragment<MainModel> implements ICommonV
     private boolean mainList = false, banLive = false;
     @Override
     public void netSuccess(int whichApi, Object[] pD) {
+        bannerData.clear();
         switch (whichApi) {
             case ApiConfig.MAIN_LIST:
                 int loadMode = (int) ((Object[]) pD[1])[0];

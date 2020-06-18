@@ -1,6 +1,7 @@
 package com.teach.teach1907.fragment.info;
 
 import android.content.Intent;
+import android.os.Bundle;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +17,7 @@ import com.teach.frame.LoadTypeConfig;
 import com.teach.frame.constants.ConstantKey;
 import com.teach.frame.utils.ParamHashMap;
 import com.teach.teach1907.R;
+import com.teach.teach1907.activity.HomeActivity;
 import com.teach.teach1907.activity.LoginActivity;
 import com.teach.teach1907.adapter.DatumAdapter;
 import com.teach.teach1907.base.BaseMvpFragment;
@@ -123,7 +125,10 @@ public class Datum extends BaseMvpFragment<DataModel> implements ICommonView, On
         if (pObjects != null && pObjects.length != 0){
             switch ((int)pObjects[0]){
                 case ITEM_TYPE:
-
+                    HomeActivity activity = (HomeActivity) getActivity();
+                    Bundle bundle = new Bundle();
+                    bundle.putString(ConstantKey.DATUM_TO_DETAIL_GID,list.get(position).getGid());
+                    activity.mProjectController.navigate(R.id.dataGroupDetailFragment,bundle);
                     break;
                 case FOCUS_TYPE:
                    boolean login = FrameApplication.getFrameApplication().isLogin();
