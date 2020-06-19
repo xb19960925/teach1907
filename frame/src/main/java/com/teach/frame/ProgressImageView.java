@@ -1,4 +1,4 @@
-package com.teach.teach1907.loading;
+package com.teach.frame;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -6,9 +6,6 @@ import android.util.AttributeSet;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-
-import com.teach.teach1907.R;
-
 
 @SuppressLint("AppCompatCustomView")
 public class ProgressImageView extends ImageView {

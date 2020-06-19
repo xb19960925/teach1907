@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.teach.frame.LoadTypeConfig;
@@ -25,7 +26,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void initRecyclerView(RecyclerView pRecyclerView, SmartRefreshLayout pRefreshLayout, DataListener pDataListener) {
-        if (pRecyclerView != null) pRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        if (pRecyclerView != null) pRecyclerView.setLayoutManager(new LinearLayoutManager(this));  ((SimpleItemAnimator) pRecyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         if (pRefreshLayout != null && pDataListener != null) {
             pRefreshLayout.setOnRefreshListener(refreshLayout -> pDataListener.dataType(LoadTypeConfig.REFRESH));
             pRefreshLayout.setOnLoadMoreListener(refreshLayout -> pDataListener.dataType(LoadTypeConfig.MORE));

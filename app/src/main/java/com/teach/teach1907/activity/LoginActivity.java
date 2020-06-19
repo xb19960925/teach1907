@@ -120,17 +120,18 @@ public class LoginActivity extends BaseMvpActivity implements LoginView.LoginVie
     }
 
     private long time = 60l;
-
     private void goTime() {
         mSubscribe = Observable.interval(1, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(goTime -> {
             mLoginView.getVerifyCode.setText(time - goTime + "s");
-            if (time - goTime < 1) doPre();  if (mSubscribe != null && !mSubscribe.isDisposed()) mSubscribe.dispose();
+            if (time - goTime < 1) {
+                doPre();
+                mLoginView.getVerifyCode.setText("获取验证码");
+            }
         });
     }
 
     private void doPre() {
-
-        mLoginView.getVerifyCode.setText("获取验证码");
+        if (mSubscribe != null && !mSubscribe.isDisposed()) mSubscribe.dispose();
     }
 
     @Override
@@ -214,6 +215,7 @@ public class LoginActivity extends BaseMvpActivity implements LoginView.LoginVie
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        //页面销毁后停止倒计时，防止观察者仍处于订阅状态，引发因持有引用问题影响对象回收
         doPre();
     }
 }

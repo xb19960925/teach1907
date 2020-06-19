@@ -43,6 +43,7 @@ public class DataBottomAdapter extends RecyclerView.Adapter<DataBottomAdapter.Vi
         holder.tvBrowseNum.setText(thread.getView_num()+"人浏览");
         holder.tvCommentNum.setText(thread.getReply_num()+"人跟帖");
         GlideUtil.loadCornerImage(holder.ivPhoto,thread.getPic(),null,6f);
+        //时间
         holder.tvAuthorAndTime.setText(TimeUtil.parseTimeYMD(thread.getCreate_time()));
     }
 

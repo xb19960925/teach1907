@@ -6,7 +6,7 @@ public class ConstantKey {
     public static final String WX_APP_SECRET = "1278977f2848ee16708c656f66abf35a";
     public static final String QQ_APP_ID = "1105712307";
 
-
+    public static final String DATUM_TO_DETAIL_NAME = "datum_to_detail_name";
     public static final String DATUM_TO_DETAIL_GID = "datum_to_detail_gid";
     public static final String LOGIN_INFO = "login_info";
     public static final String DEVICE_INFO = "device_info";
@@ -39,6 +39,7 @@ public class ConstantKey {
     public static final String SET_NEW_PWD = "set_new_pwd";
     public static final String SECRET_KEY = "screctKey";
     public static final String LOGIN_EXPIRE = "login_expire";
+    public static final String GROU_TO_DETAIL_GID = "grou_to_detail_gid";
     public static final int TRAINTAB = 3;
     public static final int BESTTAB = 1;
     public static final int PUBLICTAB = 2;

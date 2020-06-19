@@ -2,7 +2,7 @@ package com.teach.data;
 
 import java.util.List;
 
-public class NewBestBean {
+public class EssenceBean {
 
     /**
      * errNo : 0

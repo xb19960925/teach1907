@@ -3,19 +3,14 @@ package com.teach.teach1907.fragment.info;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.teach.data.NewBestBean;
-import com.teach.data.SpecialtyChooseEntity;
+import com.teach.data.EssenceBean;
 import com.teach.frame.ApiConfig;
 import com.teach.frame.ICommonView;
 import com.teach.frame.LoadTypeConfig;
-import com.teach.frame.constants.ConstantKey;
-import com.teach.frame.utils.ParamHashMap;
 import com.teach.teach1907.R;
 import com.teach.teach1907.adapter.EssenceAdapter;
 import com.teach.teach1907.base.BaseMvpFragment;
 import com.teach.teach1907.model.DataModel;
-import com.teach.teach1907.model.FragmentModel;
-import com.yiyatech.utils.newAdd.SharedPrefrenceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +23,7 @@ public class Essence extends BaseMvpFragment<DataModel> implements ICommonView {
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout sml;
     private int page=1;
-    private List<NewBestBean.ResultBean> list;
+    private List<EssenceBean.ResultBean> list;
     private EssenceAdapter mAdapter;
 
     @Override
@@ -61,6 +56,7 @@ public class Essence extends BaseMvpFragment<DataModel> implements ICommonView {
 
     @Override
     public void initData() {
+        mPresenter.allowLoading(getActivity());
         mPresenter.getData(ApiConfig.GET_NEWBEST_INFO, LoadTypeConfig.NORMAL, page);
     }
 
@@ -74,7 +70,7 @@ public class Essence extends BaseMvpFragment<DataModel> implements ICommonView {
             list.clear();
             sml.finishRefresh();
         }
-        List<NewBestBean.ResultBean> beans = ((NewBestBean) pD[0]).getResult();
+        List<EssenceBean.ResultBean> beans = ((EssenceBean) pD[0]).getResult();
         if(beans!=null)list.addAll(beans);
         mAdapter.notifyDataSetChanged();
     }

@@ -75,6 +75,7 @@ public class VIPFragment extends BaseMvpFragment<VipModel> implements ICommonVie
 
     @Override
     public void initData() {
+        mPresenter.allowLoading(getActivity());
       mPresenter.getData(ApiConfig.VPI_BANNER, LoadTypeConfig.NORMAL);
         mPresenter.getData(ApiConfig.VPI_LIST, LoadTypeConfig.NORMAL,page);
     }

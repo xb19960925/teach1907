@@ -2,7 +2,7 @@ package com.teach.data;
 
 import java.util.List;
 
-public class InformationBean {
+public class DatumBean {
 
     /**
      * errNo : 0

@@ -14,6 +14,7 @@ import com.teach.frame.LoadTypeConfig;
 import com.teach.teach1907.R;
 import com.teach.teach1907.adapter.MainAdapter;
 import com.teach.teach1907.base.BaseMvpFragment;
+import com.teach.teach1907.interfaces.DataListener;
 import com.teach.teach1907.model.MainModel;
 
 import org.json.JSONException;
@@ -27,7 +28,7 @@ import butterknife.BindView;
 import static com.teach.frame.LoadTypeConfig.*;
 
 
-public class MainFragment extends BaseMvpFragment<MainModel> implements ICommonView {
+public class MainFragment extends BaseMvpFragment<MainModel> implements DataListener {
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -53,31 +54,20 @@ public class MainFragment extends BaseMvpFragment<MainModel> implements ICommonV
     @Override
     public void initView() {
 
-        initRecyclerView(recyclerView, sml, mode -> {
-            mainList = false;
-            banLive = false;
-            if (mode == LoadTypeConfig.REFRESH) {
-                page=0;
-                mPresenter.getData(ApiConfig.MAIN_LIST, LoadTypeConfig.REFRESH, page);
-                mPresenter.getData(ApiConfig.MAIN_BANNER, LoadTypeConfig.REFRESH);
-            } else {
-                page++;
-                mPresenter.getData(ApiConfig.MAIN_LIST, LoadTypeConfig.MORE, page);
-            }
-        });
+        initRecyclerView(recyclerView, sml,this);
         mAdapter = new MainAdapter(info,bannerData,liveData,getActivity());
         recyclerView.setAdapter(mAdapter);
     }
 
     @Override
     public void initData() {
+        mPresenter.allowLoading(getActivity());
         mPresenter.getData(ApiConfig.MAIN_BANNER, LoadTypeConfig.NORMAL);
         mPresenter.getData(ApiConfig.MAIN_LIST, LoadTypeConfig.NORMAL,page);
     }
     private boolean mainList = false, banLive = false;
     @Override
     public void netSuccess(int whichApi, Object[] pD) {
-        bannerData.clear();
         switch (whichApi) {
             case ApiConfig.MAIN_LIST:
                 int loadMode = (int) ((Object[]) pD[1])[0];
@@ -116,7 +106,9 @@ public class MainFragment extends BaseMvpFragment<MainModel> implements ICommonV
                         result = resultObject.toString();
                         Gson gson = new Gson();
                         BannerLiveInfo info = gson.fromJson(result, BannerLiveInfo.class);
+                        bannerData.clear();
                         for (BannerLiveInfo.Carousel data : info.Carousel) {
+
                             bannerData.add(data.thumb);
                         }
                         liveData.clear();
@@ -133,5 +125,19 @@ public class MainFragment extends BaseMvpFragment<MainModel> implements ICommonV
               break;
         }
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void dataType(int mode) {
+        if (mode == LoadTypeConfig.REFRESH) {
+            mainList = false;
+            banLive = false;
+            page=0;
+            mPresenter.getData(ApiConfig.MAIN_LIST, LoadTypeConfig.REFRESH, page);
+            mPresenter.getData(ApiConfig.MAIN_BANNER, LoadTypeConfig.REFRESH);
+        } else {
+            page++;
+            mPresenter.getData(ApiConfig.MAIN_LIST, LoadTypeConfig.MORE, page);
+        }
     }
 }

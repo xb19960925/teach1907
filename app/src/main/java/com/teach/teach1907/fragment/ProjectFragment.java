@@ -20,6 +20,7 @@ import com.teach.teach1907.R;
 import com.teach.teach1907.adapter.CourseAdapter;
 import com.teach.teach1907.base.Application1907;
 import com.teach.teach1907.base.BaseMvpFragment;
+import com.teach.teach1907.interfaces.DataListener;
 import com.teach.teach1907.model.FragmentModel;
 import com.yiyatech.utils.newAdd.SharedPrefrenceUtils;
 
@@ -31,7 +32,7 @@ import java.util.Map;
 import butterknife.BindView;
 
 
-public class ProjectFragment extends BaseMvpFragment<FragmentModel> implements ICommonView {
+public class ProjectFragment extends BaseMvpFragment<FragmentModel> implements DataListener {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.refreshLayout)
@@ -49,13 +50,6 @@ public class ProjectFragment extends BaseMvpFragment<FragmentModel> implements I
     public ProjectFragment(int type) {
         mCourseType = type;
     }
-   /* public static ProjectFragment getInstance(int index) {
-        ProjectFragment fragment = new ProjectFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt("whichFragment", index);
-        fragment.setArguments(bundle);
-        return fragment;
-    }*/
 
     @Override
     public FragmentModel setModel() {
@@ -69,25 +63,25 @@ public class ProjectFragment extends BaseMvpFragment<FragmentModel> implements I
 
     @Override
     public void initView() {
-
-        initRecyclerView(recyclerView, sml, mode -> {
-            if (mode == LoadTypeConfig.REFRESH) {
-                page = 1;
-                mPresenter.getData(ApiConfig.GET_COURSE, LoadTypeConfig.REFRESH,page,mCourseType);
-            } else {
-                page++;
-                mPresenter.getData(ApiConfig.GET_COURSE, LoadTypeConfig.MORE, page,mCourseType);
-            }
-        });
+        initRecyclerView(recyclerView, sml, this);
         mAdapter = new CourseAdapter(Application1907.get07ApplicationContext(), mList);
         recyclerView.setAdapter(mAdapter);
     }
 
     @Override
     public void initData() {
+        mPresenter.allowLoading(getActivity());
         mPresenter.getData(ApiConfig.GET_COURSE, LoadTypeConfig.NORMAL, page,mCourseType);
     }
-
+    @Override
+    public void dataType(int mode) {
+        if (mode == LoadTypeConfig.REFRESH) {
+            mPresenter.getData(ApiConfig.GET_COURSE, LoadTypeConfig.REFRESH, 1);
+        } else {
+            page++;
+            mPresenter.getData(ApiConfig.GET_COURSE, LoadTypeConfig.MORE, page);
+        }
+    }
     @Override
     public void netSuccess(int whichApi, Object[] pD) {
         sml.finishLoadMore();

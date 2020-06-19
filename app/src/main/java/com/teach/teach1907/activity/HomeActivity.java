@@ -19,7 +19,7 @@ import com.teach.teach1907.model.CommonHomeModel;
 public class HomeActivity extends BaseMvpActivity<CommonHomeModel> implements NavController.OnDestinationChangedListener {
 
     public NavController mProjectController;
-
+    public boolean isBackFromDetail;
     @Override
     public CommonHomeModel setModel() {
         return new CommonHomeModel();

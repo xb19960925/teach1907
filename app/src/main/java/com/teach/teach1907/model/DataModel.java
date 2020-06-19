@@ -25,13 +25,22 @@ public class DataModel implements ICommonModel {
                 ParamHashMap map = new ParamHashMap().add("page", params[1]).add("fid", FrameApplication.getFrameApplication().getSelectedInfo().getFid());
                 netManger.netWork(netManger.getService(Application1907.get07ApplicationContext().getString(R.string.bbs_openapi)).getnewbest(map),pPresenter,whichApi,(int)params[0]);
                 break;
+                //点击关注
             case ApiConfig.CLICK_CANCEL_FOCUS:
                 ParamHashMap add1 = new ParamHashMap().add("group_id", params[0]).add("type", 1).add("screctKey", FrameApplication.getFrameApplicationContext().getString(R.string.secrectKey_posting));
-                netManger.netWork(netManger.getService(Application1907.get07ApplicationContext().getString(R.string.bbs_api)).removeFocus(add1),pPresenter,whichApi,(int)params[1]);
-                break;
+                if (params.length > 1) {
+                    netManger.netWork(netManger.getService(Application1907.get07ApplicationContext().getString(R.string.bbs_api)).removeFocus(add1), pPresenter, whichApi, (int) params[1]);
+                }else {
+                    netManger.netWork(netManger.getService(Application1907.get07ApplicationContext().getString(R.string.bbs_api)).removeFocus(add1), pPresenter, whichApi);
+                }
+                    break;
             case ApiConfig.CLICK_TO_FOCUS:
                 ParamHashMap add2 = new ParamHashMap().add("gid", params[0]).add("group_name", params[1]).add("screctKey", FrameApplication.getFrameApplicationContext().getString(R.string.secrectKey_posting));
-                netManger.netWork(netManger.getService(Application1907.get07ApplicationContext().getString(R.string.bbs_api)).focus(add2),pPresenter,whichApi,(int)params[2]);
+                if (params.length > 2) {
+                    netManger.netWork(netManger.getService(Application1907.get07ApplicationContext().getString(R.string.bbs_api)).focus(add2),pPresenter,whichApi,(int)params[2]);
+                }else {
+                    netManger.netWork(netManger.getService(Application1907.get07ApplicationContext().getString(R.string.bbs_api)).focus(add2),pPresenter,whichApi);
+                }
                 break;
             //  详情
             case ApiConfig.GROUP_DETAIL:

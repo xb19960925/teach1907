@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.teach.data.NewBestBean;
+import com.teach.data.EssenceBean;
 import com.teach.teach1907.R;
 import com.yiyatech.utils.newAdd.TimeUtil;
 
@@ -23,12 +23,12 @@ import butterknife.ButterKnife;
 
 public class EssenceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
-    private List<NewBestBean.ResultBean> list;
+    private List<EssenceBean.ResultBean> list;
     private String n = "";
     private String y = "";
     private String r = "";
 
-    public EssenceAdapter(Context pContext, List<NewBestBean.ResultBean> pList) {
+    public EssenceAdapter(Context pContext, List<EssenceBean.ResultBean> pList) {
         mContext = pContext;
         list = pList;
     }
@@ -42,7 +42,7 @@ public class EssenceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        NewBestBean.ResultBean bean = list.get(position);
+        EssenceBean.ResultBean bean = list.get(position);
         ViewHolder viewHolder= (ViewHolder) holder;
         viewHolder.title.setText(bean.getTitle());
         Glide.with(mContext).load(bean.getPic()).into(viewHolder.Pic);

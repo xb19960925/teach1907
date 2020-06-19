@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@android:color/transparent">
 
-    <com.teach.teach1907.loading.ProgressImageView
+    <com.teach.frame.ProgressImageView
         android:id="@+id/view_list_empty_progress"
         android:layout_width="@dimen/dp_24"
         android:layout_height="@dimen/dp_24"
@@ -19,7 +19,7 @@
         android:layout_marginLeft="@dimen/dp_5"
         android:layout_toRightOf="@+id/view_list_empty_progress"
         android:text="加载中"
-        android:textColor="@color/black"
+        android:textColor="@android:color/black"
         android:textSize="@dimen/sp_12" />
 
 </RelativeLayout>

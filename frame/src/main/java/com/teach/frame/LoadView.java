@@ -1,5 +1,5 @@
 
-package com.teach.teach1907.loading;
+package com.teach.frame;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
-
-import com.teach.teach1907.R;
 
 /**
  * 带提示内容的进度框

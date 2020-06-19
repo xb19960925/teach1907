@@ -41,6 +41,7 @@ public class GroupDateTabAdapter extends RecyclerView.Adapter<GroupDateTabAdapte
         //当前处于pop展开状态
         boolean tabSelected = tag.isSelecting();
         if (tag.getContainsName() == null)tag.setContainsName(new ArrayList<>());
+        //默认选中数据
         if (tag.getOn() == 1){
             for (int i =0 ;i<tag.getSelects().size();i++){
                 if (tag.getSelects().get(i).getOn() == 1){
@@ -51,6 +52,7 @@ public class GroupDateTabAdapter extends RecyclerView.Adapter<GroupDateTabAdapte
                 }
             }
         }
+        //决定显示样式
         holder.tagContent.setText(tag.getContainsName().size() == 0 ? tag.getTag_name() : tag.getContainsName().get(0));
         holder.tagContent.setBackground(ContextCompat.getDrawable(mContext,tag.getContainsName().size() != 0 && !tabSelected ? R.drawable.group_tab_bg_has_selected_content : R.drawable.group_tab_bg));
         holder.fallsView.setVisibility(tabSelected ? View.VISIBLE : View.INVISIBLE);

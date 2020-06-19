@@ -25,9 +25,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * Created by 任小龙 on 2020/6/4.
- */
 public class BottomTabView extends RelativeLayout {
     @BindView(R.id.main_page_tab)
     TextView mainPageTab;

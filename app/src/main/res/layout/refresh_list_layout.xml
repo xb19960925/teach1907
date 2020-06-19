@@ -18,6 +18,7 @@
         app:srlDrawableProgressSize="@dimen/dp_20"
         app:srlDrawableMarginRight="@dimen/dp_20"
         app:srlDrawableProgress="@drawable/loading_footer"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"

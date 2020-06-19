@@ -5,10 +5,10 @@ import com.teach.data.BaseInfo;
 import com.teach.data.CourseBean;
 import com.teach.data.GroupDetailEntity;
 import com.teach.data.IndexCommondEntity;
-import com.teach.data.InformationBean;
+import com.teach.data.DatumBean;
 import com.teach.data.LoginInfo;
 import com.teach.data.MainAdEntity;
-import com.teach.data.NewBestBean;
+import com.teach.data.EssenceBean;
 import com.teach.data.PersonHeader;
 import com.teach.data.SpecialtyChooseEntity;
 import com.teach.data.TestInfo;
@@ -75,10 +75,10 @@ public interface IService {
     Observable<BaseInfo<List<IndexCommondEntity>>> getMainList(@QueryMap Map<String,Object> params);
     //资料
     @GET("group/getGroupList")
-    Observable<InformationBean>getInformation(@QueryMap Map<String,Object>params);
+    Observable<DatumBean>getInformation(@QueryMap Map<String,Object>params);
 
     @GET("group/getThreadEssence")
-    Observable<NewBestBean>getnewbest(@QueryMap Map<String,Object>params);
+    Observable<EssenceBean>getnewbest(@QueryMap Map<String,Object>params);
 //VIP
     @GET("lesson/get_new_vip")
     Observable<VipBean> getBanner(@QueryMap Map<String, Object> params);

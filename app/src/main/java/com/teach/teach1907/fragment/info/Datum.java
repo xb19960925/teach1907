@@ -7,24 +7,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.teach.data.BaseInfo;
-import com.teach.data.InformationBean;
-import com.teach.data.NewBestBean;
-import com.teach.data.SpecialtyChooseEntity;
+import com.teach.data.DatumBean;
 import com.teach.frame.ApiConfig;
 import com.teach.frame.FrameApplication;
-import com.teach.frame.ICommonView;
 import com.teach.frame.LoadTypeConfig;
 import com.teach.frame.constants.ConstantKey;
-import com.teach.frame.utils.ParamHashMap;
 import com.teach.teach1907.R;
 import com.teach.teach1907.activity.HomeActivity;
 import com.teach.teach1907.activity.LoginActivity;
 import com.teach.teach1907.adapter.DatumAdapter;
 import com.teach.teach1907.base.BaseMvpFragment;
+import com.teach.teach1907.interfaces.DataListener;
 import com.teach.teach1907.interfaces.OnRecyclerItemClick;
 import com.teach.teach1907.model.DataModel;
-import com.teach.teach1907.model.FragmentModel;
-import com.yiyatech.utils.newAdd.SharedPrefrenceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +32,7 @@ import static com.teach.teach1907.design.JumpConstant.DATAGROUPFRAGMENT_TO_LOGIN
 import static com.teach.teach1907.design.JumpConstant.JUMP_KEY;
 
 
-public class Datum extends BaseMvpFragment<DataModel> implements ICommonView, OnRecyclerItemClick {
+public class Datum extends BaseMvpFragment<DataModel> implements DataListener, OnRecyclerItemClick {
 
 
     @BindView(R.id.recyclerView)
@@ -45,7 +40,7 @@ public class Datum extends BaseMvpFragment<DataModel> implements ICommonView, On
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout sml;
     private int page = 1;
-    private List<InformationBean.ResultBean> list;
+    private List<DatumBean.ResultBean> list;
     private DatumAdapter mAdapter;
 
     @Override
@@ -57,20 +52,16 @@ public class Datum extends BaseMvpFragment<DataModel> implements ICommonView, On
     public int setLayout() {
         return R.layout.datum;
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        HomeActivity a = (HomeActivity) getActivity();
+        if (a.isBackFromDetail)dataType(LoadTypeConfig.REFRESH);
+    }
 
     @Override
     public void initView() {
-
-        initRecyclerView(recyclerView, sml, mode -> {
-            if (mode == LoadTypeConfig.MORE) {
-                page++;
-                mPresenter.getData(ApiConfig.GET_INFORMATION_INFO, LoadTypeConfig.MORE,page);
-            }
-            if (mode == LoadTypeConfig.REFRESH) {
-               page = 1;
-                mPresenter.getData(ApiConfig.GET_INFORMATION_INFO, LoadTypeConfig.REFRESH,page);
-            }
-        });
+        initRecyclerView(recyclerView, sml, this);
         list = new ArrayList<>();
         mAdapter = new DatumAdapter(getActivity(), list);
         recyclerView.setAdapter(mAdapter);
@@ -79,6 +70,7 @@ public class Datum extends BaseMvpFragment<DataModel> implements ICommonView, On
 
     @Override
     public void initData() {
+        mPresenter.allowLoading(getActivity());
         mPresenter.getData(ApiConfig.GET_INFORMATION_INFO, LoadTypeConfig.NORMAL,page);
     }
 
@@ -94,7 +86,7 @@ public class Datum extends BaseMvpFragment<DataModel> implements ICommonView, On
             list.clear();
             sml.finishRefresh();
         }
-        List<InformationBean.ResultBean> info = ((InformationBean) pD[0]).getResult();
+        List<DatumBean.ResultBean> info = ((DatumBean) pD[0]).getResult();
         if(info!=null) list.addAll(info);
         mAdapter.notifyDataSetChanged();
 
@@ -106,6 +98,8 @@ public class Datum extends BaseMvpFragment<DataModel> implements ICommonView, On
                     showToast("取消成功");
                     list.get(clickPos).setIs_ftop(0);
                     mAdapter.notifyItemChanged(clickPos);
+                }else {
+                    showToast(base.msg);
                 }
                 break;
             case ApiConfig.CLICK_TO_FOCUS:
@@ -115,11 +109,21 @@ public class Datum extends BaseMvpFragment<DataModel> implements ICommonView, On
                     showToast("关注成功");
                     list.get(clickJoinPos).setIs_ftop(1);
                     mAdapter.notifyItemChanged(clickJoinPos);
+                }else {
+                    showToast(bases.msg);
                 }
                 break;
         }
     }
-
+    @Override
+    public void dataType(int mode) {
+        if (mode == LoadTypeConfig.REFRESH) {
+            mPresenter.getData(ApiConfig.GET_INFORMATION_INFO, LoadTypeConfig.REFRESH, 1);
+        } else {
+            page++;
+            mPresenter.getData(ApiConfig.GET_INFORMATION_INFO, LoadTypeConfig.MORE, page);
+        }
+    }
     @Override
     public void onItemClick(int position, Object[] pObjects) {
         if (pObjects != null && pObjects.length != 0){
@@ -128,12 +132,13 @@ public class Datum extends BaseMvpFragment<DataModel> implements ICommonView, On
                     HomeActivity activity = (HomeActivity) getActivity();
                     Bundle bundle = new Bundle();
                     bundle.putString(ConstantKey.DATUM_TO_DETAIL_GID,list.get(position).getGid());
+                    bundle.putString(ConstantKey.DATUM_TO_DETAIL_NAME,list.get(position).getGroup_name());
                     activity.mProjectController.navigate(R.id.dataGroupDetailFragment,bundle);
                     break;
                 case FOCUS_TYPE:
                    boolean login = FrameApplication.getFrameApplication().isLogin();
                     if(login) {
-                        InformationBean.ResultBean bean = list.get(position);
+                        DatumBean.ResultBean bean = list.get(position);
                         if (bean.isFocus()) {//已经关注，取消关注
                             mPresenter.getData(ApiConfig.CLICK_CANCEL_FOCUS, bean.getGid(), position);//绿码
                         } else {//没有关注，点击关注

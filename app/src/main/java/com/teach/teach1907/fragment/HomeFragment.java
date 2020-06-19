@@ -16,6 +16,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.teach.data.SpecialtyChooseEntity;
 import com.teach.frame.FrameApplication;
 import com.teach.teach1907.R;
+import com.teach.teach1907.activity.HomeActivity;
 import com.teach.teach1907.activity.SubjectActivity;
 import com.teach.teach1907.base.BaseMvpFragment;
 import com.teach.teach1907.model.FragmentModel;
@@ -58,8 +59,11 @@ public class HomeFragment extends BaseMvpFragment<FragmentModel> implements Bott
         NavHostFragment.findNavController(this).addOnDestinationChangedListener((controller, destination, arguments) -> {
             mCurrentFragment = destination.getLabel().toString();
             new Handler().postDelayed(() -> {
-                if (preFragment.equals("DataGroupDetailFragment") && mCurrentFragment.equals("HomeFragment"))
+                if (preFragment.equals("DataGroupDetailFragment") && mCurrentFragment.equals("HomeFragment")) {
+                    HomeActivity activity = (HomeActivity) getActivity();
+                    activity.isBackFromDetail = true;
                     mTabView.changeSelected(DATA);
+                }
                 preFragment = mCurrentFragment;
             },50);
         });

@@ -11,10 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.teach.data.InformationBean;
+import com.teach.data.DatumBean;
 import com.teach.teach1907.R;
-import com.teach.teach1907.design.RoundImage;
 import com.teach.teach1907.design.RoundOrCircleImage;
 import com.teach.teach1907.interfaces.OnRecyclerItemClick;
 import com.yiyatech.utils.newAdd.GlideUtil;
@@ -27,9 +25,9 @@ import butterknife.ButterKnife;
 public class DatumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    private List<InformationBean.ResultBean> list;
+    private List<DatumBean.ResultBean> list;
     public static final int ITEM_TYPE=1,FOCUS_TYPE=2;
-    public DatumAdapter(Context pContext, List<InformationBean.ResultBean> pList) {
+    public DatumAdapter(Context pContext, List<DatumBean.ResultBean> pList) {
         mContext = pContext;
         list = pList;
     }
@@ -43,7 +41,7 @@ public class DatumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        InformationBean.ResultBean bean = list.get(position);
+        DatumBean.ResultBean bean = list.get(position);
         ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.title.setText(bean.getGroup_name());
         //Glide.with(mContext).load(bean.getAvatar()).into(viewHolder.img);
