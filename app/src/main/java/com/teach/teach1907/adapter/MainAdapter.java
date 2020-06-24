@@ -17,8 +17,8 @@ import com.teach.data.BannerLiveInfo;
 import com.teach.data.IndexCommondEntity;
 import com.teach.teach1907.R;
 import com.teach.teach1907.design.BannerLayout;
-import com.yiyatech.utils.ext.StringUtils;
 import com.yiyatech.utils.newAdd.GlideUtil;
+import com.yiyatech.utils.newAdd.StringUtils;
 
 import java.util.List;
 

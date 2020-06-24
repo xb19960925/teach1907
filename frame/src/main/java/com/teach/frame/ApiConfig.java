@@ -28,9 +28,10 @@ public class ApiConfig {
     public static final int GET_WE_CHAT_TOKEN = 22;
     public static final int POST_WE_CHAT_LOGIN_INFO = 23;
     public static final int BIND_ACCOUNT = 24;
-//详情
+//资料详情
     public static final int GROUP_DETAIL = 25;
     public static final int GROUP_DETAIL_FOOTER_DATA = 26;
 
-
+    //课程详情
+    public static final int COURSE_DETAIL_INFO = 27;
 }

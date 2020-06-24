@@ -59,10 +59,13 @@ public class HomeFragment extends BaseMvpFragment<FragmentModel> implements Bott
         NavHostFragment.findNavController(this).addOnDestinationChangedListener((controller, destination, arguments) -> {
             mCurrentFragment = destination.getLabel().toString();
             new Handler().postDelayed(() -> {
+                HomeActivity activity = (HomeActivity) getActivity();
                 if (preFragment.equals("DataGroupDetailFragment") && mCurrentFragment.equals("HomeFragment")) {
-                    HomeActivity activity = (HomeActivity) getActivity();
                     activity.isBackFromDetail = true;
                     mTabView.changeSelected(DATA);
+                }else if(preFragment.equals("CourseDetailFragment")&& mCurrentFragment.equals("HomeFragment")){
+                    activity.isBackFromDetail = true;
+                    mTabView.changeSelected(COURSE);
                 }
                 preFragment = mCurrentFragment;
             },50);

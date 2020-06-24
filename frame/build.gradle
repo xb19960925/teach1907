@@ -44,4 +44,6 @@ dependencies {
     api 'com.android.support:design:29.0.6'
     api project(path: ':data')
     api project(path: ':utils')
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

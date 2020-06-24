@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -194,10 +195,11 @@ public class DataGroupDetailFragment extends BaseMvpFragment<DataModel> implemen
     private int currentPopPos = -1;
 
     private void popTabClick(int pos) {
-        LoadView.getInstance(getActivity(), null).show();
+        //加载条
         LoadView.getInstance(getActivity(), null).show();
         currentPopPos = pos;
         GroupDetailEntity.Tag.SelectsBean selectsBean = mPopData.get(pos);
+        //点击取出tag
         tags = tags.equals(selectsBean.getUrl()) ? "" : selectsBean.getUrl();
         getFooterData(LoadTypeConfig.REFRESH);
     }
@@ -343,7 +345,8 @@ public class DataGroupDetailFragment extends BaseMvpFragment<DataModel> implemen
                 }
                 break;
             case R.id.groupBack:
-                mActivity.mProjectController.navigateUp();
+               // mActivity.mProjectController.navigate(R.id.dataGroup_back_to_home);
+                NavHostFragment.findNavController(this).navigateUp();
                 break;
         }
     }

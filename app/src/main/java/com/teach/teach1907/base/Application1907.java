@@ -3,6 +3,8 @@ package com.teach.teach1907.base;
 
 import android.content.Context;
 
+import androidx.multidex.MultiDex;
+
 import com.teach.frame.FrameApplication;
 
 public class Application1907 extends FrameApplication {
@@ -11,6 +13,7 @@ public class Application1907 extends FrameApplication {
     public void onCreate() {
         super.onCreate();
         mApplication1907 = this;
+        MultiDex.install(this);
     }
 
     public Application1907 getApplication(){

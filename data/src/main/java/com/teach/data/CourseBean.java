@@ -1,17 +1,19 @@
 package com.teach.data;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class CourseBean {
+public class CourseBean implements Serializable {
 
+    private static final long serialVersionUID = 4553503611770493560L;
     public int errNo;
     public ResultBean result;
     public int exeTime;
 
-    public  class ResultBean {
+    public  class ResultBean implements Serializable{
         public List<ListsBean> lists;
 
-        public  class ListsBean {
+        public  class ListsBean implements Serializable {
 
 
             public String id;

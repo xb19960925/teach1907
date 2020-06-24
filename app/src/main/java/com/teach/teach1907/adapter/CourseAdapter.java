@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.teach.data.CourseBean;
 import com.teach.teach1907.R;
+import com.teach.teach1907.interfaces.OnRecyclerItemClick;
 
 import java.util.ArrayList;
 
@@ -42,6 +43,12 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         holder.courseNum.setText(mList.get(position).studentnum+"人学习");
         holder.courseRate.setText("好评率"+mList.get(position).rate);
         holder.price.setText("￥"+mList.get(position).price);
+        holder.itemView.setOnClickListener(v -> mOnRecyclerItemClick.onItemClick(position));
+    }
+private OnRecyclerItemClick mOnRecyclerItemClick;
+
+    public void setOnRecyclerItemClick(OnRecyclerItemClick pOnRecyclerItemClick) {
+        mOnRecyclerItemClick = pOnRecyclerItemClick;
     }
 
     @Override

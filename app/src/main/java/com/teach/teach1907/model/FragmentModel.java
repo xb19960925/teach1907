@@ -20,7 +20,7 @@ public class FragmentModel implements ICommonModel {
     public void getData(ICommonPresenter pPresenter, int whichApi, Object[] params) {
         switch (whichApi) {
             case ApiConfig.GET_COURSE:
-                ParamHashMap map = new ParamHashMap().add("page", params[1]).add("course_type", params[2]).add("limit", Constants.LIMIT_NUM).add("specialty_id", FrameApplication.getFrameApplication().getSelectedInfo().getSpecialty_id());
+                ParamHashMap map = new ParamHashMap().add("page", params[1]).add("course_type", params[2]).add("limit", Constants.LIMIT_NUM).add("specialty_id",  FrameApplication.getFrameApplication().getSelectedInfo().getSpecialty_id());
                 netManger.netWork(netManger.getService(Application1907.get07ApplicationContext().getString(R.string.edu_openapi)).getList(map), pPresenter, whichApi,(int)params[0]);
             break;
 

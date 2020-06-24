@@ -54,14 +54,15 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     defaultConfig {
-        applicationId "com.teach.teach1907"
-        applicationId "com.zhulong.eduvideo"
+      //applicationId "com.teach.teach1907"
+      applicationId "com.zhulong.eduvideo"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
     }
     lintOptions {
         checkReleaseBuilds false
@@ -90,12 +91,14 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:multidex:1.0.3'
 
     implementation "androidx.appcompat:appcompat:$androidXVsersion"
     implementation "androidx.constraintlayout:constraintlayout:$androidXConstraint"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation project(path: ':basepop')
     implementation files('libs\\libammsdk.jar')
+    implementation files('libs\\ccsdk.jar')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

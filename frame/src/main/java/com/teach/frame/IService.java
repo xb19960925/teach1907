@@ -3,6 +3,7 @@ package com.teach.frame;
 import com.google.gson.JsonObject;
 import com.teach.data.BaseInfo;
 import com.teach.data.CourseBean;
+import com.teach.data.CourseDetailInfo;
 import com.teach.data.GroupDetailEntity;
 import com.teach.data.IndexCommondEntity;
 import com.teach.data.DatumBean;
@@ -26,6 +27,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
+import retrofit2.http.Url;
 
 
 public interface IService {
@@ -120,7 +122,9 @@ public interface IService {
 
     @GET("group/getGroupThreadList")
     Observable<JsonObject> getGroupDetailFooterData( @QueryMap Map<String,Object> params);
-
-
+    //课程详情
+    @POST("getNewLessonDetail")
+    @FormUrlEncoded
+    Observable<BaseInfo<CourseDetailInfo>> getCourseDetail(@FieldMap Map<String, Object> pMap);
 }
 
